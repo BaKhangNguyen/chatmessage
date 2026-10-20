@@ -1,10 +1,8 @@
-
 import socket
 import threading
 
 port = 5001
 device = socket.socket()
-
 if input("Host? (y/n): ") == "y":
     device.bind(("", port))
     device.listen()
