@@ -1,23 +1,32 @@
+
 import socket
+import threading
 
-server = socket.socket()
-server.bind(("0.0.0.0", 5001))
-server.listen(1)
+port = 5001
+device = socket.socket()
 
-print("Waiting for connection...")
-chat, address = server.accept()
-print("Connected to", address[0])
+if input("Host? (y/n): ") == "y":
+    device.bind(("", port))
+    device.listen()
+    print("Waiting for connection...")
+    chat, address = device.accept()
+else:
+    device.connect((input("Server IP: "), port))
+    chat = device
+
+def listen():
+    while True:
+        message = chat.recv(1024).decode()
+        if not message:
+            break
+        print("\nFriend:", message)
+
+threading.Thread(target=listen, daemon=True).start()
 
 while True:
     message = input("You: ")
-    chat.sendall(message.encode())
     if message == "/quit":
         break
-
-    reply = chat.recv(1024).decode()
-    if not reply or reply == "/quit":
-        break
-    print("Friend:", reply)
+    chat.sendall(message.encode())
 
 chat.close()
-server.close()
