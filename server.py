@@ -1,30 +1,54 @@
 import socket
 import threading
 
-port = 5001
-device = socket.socket()
-if input("Are you a Host? (y/n): ") == "y":
-    device.bind(("", port))
-    device.listen()
-    print("Waiting for connection...")
-    chat, address = device.accept()
-else:
-    device.connect((input("Server IP: "), port))
-    chat = device
+# application - sets up the port number for the app data
+# presentation - defines the data formatting for the port
+port = 5001 
 
+# transport - creates a socket using tcm (Transmission Control Protocol) forconnection
+device = socket.socket() 
+
+# session - starts session by identifying server or client
+if input("Are you a the main server pc? (y/n): ") == "y":
+    
+    # network - connects the socket with ip so it can route using path determination and logical addressing
+    # data link - relates script with network through pc hardware using frames
+    device.bind(('', port)) 
+    
+    # session - listens and waits for communication to open the data connection
+    device.listen() 
+    print("Waiting for your bro to connect...") 
+    chat, address = device.accept() 
+    
+else:
+    # network - connects the socket with ip so it can route packets across the network path
+    # physical - transmits raw bits as signals over physical media like wires or wifi
+    device.connect((input("Server IP: "), port)) 
+    chat = device 
+
+# session - manages a background thread for interhost communication data transfer
 def listen():
     while True:
-        message = chat.recv(1024).decode()
-        if not message:
+        # presentation - translates binary data bytes into readable text characters
+        message = chat.recv(1024).decode() 
+        
+        if not message: 
             break
-        print("\nFriend:", message)
+            
+        # application - displays the final data on the network process user screen
+        print("\nBro: ", message) 
 
 threading.Thread(target=listen, daemon=True).start()
 
+# application - handles the network process to application user chat loop
 while True:
-    message = input("You: ")
-    if message == "/quit":
+    message = input("You: ") 
+    
+    if message == "/quit": 
         break
-    chat.sendall(message.encode())
+        
+    # presentation - converts text characters into binary data formatting for transmission
+    chat.sendall(message.encode()) 
 
-chat.close()
+# session - brings down the interhost communication to close the chat
+chat.close() 
