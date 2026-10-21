@@ -5,7 +5,7 @@ import threading
 # presentation - defines the data formatting for the port
 port = 5001 
 
-# transport - creates a socket using tcm (Transmission Control Protocol) forconnection
+# transport - creates a socket using tcp (Transmission Control Protocol) forconnection
 device = socket.socket() 
 
 # session - starts session by identifying server or client
